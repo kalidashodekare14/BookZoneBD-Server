@@ -4,7 +4,8 @@ const dotenv = require("dotenv");
 const cors = require("cors");
 
 const connectDB = require("./config/db");
-const userRoutes = require('./routes/userRoutes')
+const userRoutes = require('./routes/userRoutes');
+const allBooks = require('./routes/totalBookRoutes');
 
 const app = express();
 dotenv.config();
@@ -16,7 +17,8 @@ app.use(express.json());
 
 
 
-app.use('/api/user', userRoutes)
+app.use('/api/user', userRoutes);
+app.use('/api/product', allBooks);
 
 
 
