@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.post('/register', registerUser);
 router.get('/login', loginUser);
-router.patch('/user_information_update/:email', userInformationUpdate)
+
 
 
 module.exports = router;
