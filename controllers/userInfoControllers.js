@@ -2,9 +2,17 @@ const User = require('../models/userModel');
 
 const userInfoApi = async (req, res) => {
     try {
-        const email = req.params.email;
-        const userInfo = await User.findOne({ email }).lean();
-        console.log('checking email', userInfo)
+        const userFromParams = req.params.email;
+        const userIdFromToken = req.user;
+        const userInfo = await User.findById(userIdFromToken).lean();
+
+        if (!userInfo || userInfo.email !== userFromParams) {
+            return res.status(403).send({
+                success: false,
+                message: "Forbidden access - user mismatch"
+            })
+        }
+
         const { password, ...userData } = userInfo;
         res.status(200).send({
             success: true,
@@ -21,7 +29,7 @@ const userInfoApi = async (req, res) => {
 
 const userInformationUpdate = async (req, res) => {
     try {
-        const { name, description, email, date_of_birth, gender, mobile_number, image } = req.body;
+        const profileInfo = req.body;
         const userEmail = req.params.email;
         const extisEmail = await User.findOne({ email: userEmail })
 
@@ -34,16 +42,11 @@ const userInformationUpdate = async (req, res) => {
 
         const updateInformation = await User.findOneAndUpdate(
             { email: userEmail },
-            {
-                name,
-                description,
-                email,
-                date_of_birth,
-                gender,
-                mobile_number,
-                image
-            }
+            { $set: profileInfo },
+            { new: true }
+
         )
+        console.log('checking data update', updateInformation)
         res.status(200).send({
             success: true,
             message: "User information update succefully",

@@ -7,6 +7,7 @@ const connectDB = require("./config/db");
 const userRoutes = require('./routes/userRoutes');
 const allBooks = require('./routes/totalBookRoutes');
 const userInfo = require('./routes/userInfoRoutes')
+const authMiddleware = require('./middlewares/authMiddleware')
 
 const app = express();
 dotenv.config();
@@ -15,7 +16,7 @@ dotenv.config();
 connectDB();
 app.use(cors({
     origin: ['http://localhost:5173'],
-    methods: ["GET", "POST", "PATCH","PUT","DELETE"],
+    methods: ["GET", "POST", "PATCH", "PUT", "DELETE"],
     credentials: true
 }));
 app.use(express.json());
@@ -23,7 +24,7 @@ app.use(express.json());
 
 
 app.use('/api/user', userRoutes);
-app.use('/api/userInfo', userInfo)
+app.use('/api/userInfo', authMiddleware, userInfo)
 app.use('/api/product', allBooks);
 
 
