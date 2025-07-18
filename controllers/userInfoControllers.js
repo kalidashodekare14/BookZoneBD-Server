@@ -12,7 +12,7 @@ const userInfoApi = async (req, res) => {
                 message: "Forbidden access - user mismatch"
             })
         }
-
+        
         const { password, ...userData } = userInfo;
         res.status(200).send({
             success: true,
