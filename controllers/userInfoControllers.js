@@ -14,6 +14,7 @@ const userInfoApi = async (req, res) => {
         }
         
         const { password, ...userData } = userInfo;
+        
         res.status(200).send({
             success: true,
             message: "User information successful",

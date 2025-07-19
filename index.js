@@ -5,7 +5,7 @@ const cors = require("cors");
 
 const connectDB = require("./config/db");
 const userRoutes = require('./routes/userRoutes');
-const allBooks = require('./routes/totalBookRoutes');
+const dashboardData = require('./routes/dashboardDataRoutes');
 const userInfo = require('./routes/userInfoRoutes');
 const publicBooks = require('./routes/publicTotalBookRoutes');
 const authMiddleware = require('./middlewares/authMiddleware');
@@ -28,10 +28,8 @@ app.use(express.json());
 app.use('/api/user', userRoutes);
 app.use('/api/user_verify', authMiddleware, usrVerifyRoutes)
 app.use('/api/userInfo', authMiddleware, userInfo);
-app.use('/api/product', allBooks);
+app.use('/api/dashboard', dashboardData);
 app.use('/api/public', publicBooks);
-
-
 
 
 
