@@ -14,6 +14,11 @@ const userSchema = new mongoose.Schema({
     date_of_birth: { type: String },
     gender: { type: String },
     contact_number: { type: String },
+    alternative_phone_number: { type: String },
+    country: { type: String },
+    city: { type: String },
+    state: { type: String },
+    union: { type: String },
     address: { type: String },
     image: { type: String },
     role: { type: String }

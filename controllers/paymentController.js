@@ -15,8 +15,8 @@ const paymentIntegration = async (req, res) => {
 
 
         const initateData = {
-            store_id: "webwa66d6f4cb94fee",
-            store_passwd: "webwa66d6f4cb94fee@ssl",
+            store_id: "progr687f4d7ea536d",
+            store_passwd: "progr687f4d7ea536d@ssl",
             total_amount: paymentInfo.amount || 0,
             currency: paymentInfo.currency || "BDT",
             tran_id: tnxId,
