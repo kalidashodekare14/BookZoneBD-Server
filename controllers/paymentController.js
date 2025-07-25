@@ -20,9 +20,9 @@ const paymentIntegration = async (req, res) => {
             total_amount: paymentInfo.amount || 0,
             currency: paymentInfo.currency || "BDT",
             tran_id: tnxId,
-            success_url: "http://localhost:5173/success-payment",
-            fail_url: "http://localhost:5173/payment-fail",
-            cancel_url: "http://localhost:5173/payment-cancel",
+            success_url: "http://localhost:5000/api/payment/payment_success",
+            fail_url: "http://localhost:5000/api/payment/payment_fail",
+            cancel_url: "http://localhost:5000/api/payment/payment_cancel",
             cus_name: paymentInfo.customar_name || "None",
             cus_email: paymentInfo.customar_email || "None",
             cus_add1: addressData.address || "None",
@@ -53,7 +53,8 @@ const paymentIntegration = async (req, res) => {
             }
         })
 
-        console.log('payment response check', response)
+        console.log('checking payment data', response)
+
 
         const saveData = {
             tran_id: tnxId,
@@ -83,5 +84,69 @@ const paymentIntegration = async (req, res) => {
     }
 }
 
+const paymentSucces = async (req, res) => {
+    try {
+        console.log('checking success', req.body)
+        const successData = req.body;
+        if (successData.status !== "VALID") {
+            throw new Error("Unauthorized payment, Invalid Payment")
+        }
+        const findData = await paymentModel.updateOne(
+            { tran_id: successData?.tran_id },
+            {
+                $set: {
+                    status: "Success"
+                }
+            }
+        )
+        console.log('checking pament status', findData)
+        res.redirect(`http://localhost:5173/payment_success`)
 
-module.exports = { paymentIntegration }
+    } catch (error) {
+        res.status(500).send({
+            success: false,
+            message: "Status not update"
+        })
+    }
+}
+const paymentFail = async (req, res) => {
+    res.redirect('http://localhost:5173/payment_fail')
+}
+const paymentCancel = async (req, res) => {
+    res.redirect('http://localhost:5173/payment_cancel')
+}
+
+const cashOnPayment = async (req, res) => {
+    try {
+        const paymentInfo = req.body;
+        const tnxId = crypto.randomBytes(8).toString("hex");
+        const addressData = paymentInfo.addressInfo
+        const products = paymentInfo.products
+
+        const saveData = {
+            tran_id: tnxId,
+            customar_name: paymentInfo.customar_name,
+            customar_email: paymentInfo.customar_email,
+            amount: paymentInfo.amount,
+            image: paymentInfo.image,
+            currency: paymentInfo.currency,
+            addressData,
+            products,
+            status: "Pending",
+        }
+        await paymentModel.create(saveData);
+        res.status(200).send({
+            success: true,
+            message: "Payment successfully",
+        })
+
+    } catch (error) {
+        res.status(500).send({
+            success: false,
+            message: "Payment failed"
+        })
+    }
+}
+
+
+module.exports = { paymentIntegration, cashOnPayment, paymentSucces, paymentFail, paymentCancel }

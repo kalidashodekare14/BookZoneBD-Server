@@ -12,9 +12,9 @@ const userInfoApi = async (req, res) => {
                 message: "Forbidden access - user mismatch"
             })
         }
-        
+
         const { password, ...userData } = userInfo;
-        
+
         res.status(200).send({
             success: true,
             message: "User information successful",
@@ -63,5 +63,18 @@ const userInformationUpdate = async (req, res) => {
     }
 
 }
+
+// const userShippingInfoUpdate = async (req, res) => {
+//     try {
+//         const shippingInfo = req.body;
+
+
+//     }catch(error){
+//         res.status(200).send({
+//             success: false,
+//             message: "Shipping Info Update Failed"
+//         })
+//     }
+// }
 
 module.exports = { userInfoApi, userInformationUpdate }
