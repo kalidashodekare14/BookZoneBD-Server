@@ -2,15 +2,65 @@ const totalBooks = require("../models/totalBooksModel")
 
 const publicTotalBooks = async (req, res) => {
     try {
-        const allBooks = await totalBooks.find({});
+        const { search, minPrice, maxPrice, minDiscount, maxDiscount, rating, authors, publishers, page, limit } = req.query;
+        const query = {};
+
+        console.log('checking quiery', query)
+
+        console.log('checking data for filtering', req.query)
+
+        if (search) {
+            query.title = { $regex: search, $options: 'i' }
+        }
+
+        if (minPrice && maxPrice) {
+            query.price = { $gte: Number(minPrice), $lte: Number(maxPrice) }
+        }
+
+        if (minDiscount && maxDiscount) {
+            query.discount = { $gte: Number(minDiscount), $lte: Number(maxDiscount) }
+        }
+
+        if (rating) {
+            query.rating = { $gte: Number(rating) };
+        }
+
+        if (authors) {
+            query.author = { $in: authors.split(',') };
+        }
+
+        if (publishers) {
+            query.publishers = { $in: publishers.split(',') };
+        }
+
+
+        const total = await totalBooks.countDocuments(query);
+        const pageNum = Number(page) || 1;
+        const limitNum = Number(limit) || 10;
+        const skip = (pageNum - 1) * limitNum
+
+        const allBooks = await totalBooks.find(query)
+            .skip(skip)
+            .limit(Number(limitNum));
+        const filteringData = await totalBooks.find({});
+
+        const booksData = {
+            totalItems: total,
+            currentPage: page,
+            totalPages: Math.ceil(total / limitNum),
+            filteringData: filteringData,
+            books: allBooks
+        }
+
+
         res.status(200).send({
             success: true,
             message: "Total Book successfuly",
-            data: allBooks
+            data: booksData
         })
     } catch (error) {
         res.status(500).send({
-            suceess: false,
+            success: false,
             message: "Total book failed",
             error
         })
