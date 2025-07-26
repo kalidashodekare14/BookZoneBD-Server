@@ -5,10 +5,6 @@ const publicTotalBooks = async (req, res) => {
         const { search, minPrice, maxPrice, minDiscount, maxDiscount, rating, authors, publishers, page, limit } = req.query;
         const query = {};
 
-        console.log('checking quiery', query)
-
-        console.log('checking data for filtering', req.query)
-
         if (search) {
             query.title = { $regex: search, $options: 'i' }
         }
@@ -30,7 +26,7 @@ const publicTotalBooks = async (req, res) => {
         }
 
         if (publishers) {
-            query.publishers = { $in: publishers.split(',') };
+            query.publisher = { $in: publishers.split(',') };
         }
 
 
@@ -39,10 +35,10 @@ const publicTotalBooks = async (req, res) => {
         const limitNum = Number(limit) || 10;
         const skip = (pageNum - 1) * limitNum
 
-        const allBooks = await totalBooks.find(query)
-            .skip(skip)
-            .limit(Number(limitNum));
+
         const filteringData = await totalBooks.find({});
+        const allBooks = await totalBooks.find(query).skip(skip).limit(limitNum);
+
 
         const booksData = {
             totalItems: total,
@@ -51,7 +47,6 @@ const publicTotalBooks = async (req, res) => {
             filteringData: filteringData,
             books: allBooks
         }
-
 
         res.status(200).send({
             success: true,
@@ -66,6 +61,8 @@ const publicTotalBooks = async (req, res) => {
         })
     }
 }
+
+
 
 const viewDetailsBook = async (req, res) => {
     try {
