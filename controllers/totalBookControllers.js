@@ -41,7 +41,6 @@ const bookAddApi = async (req, res) => {
 
 const totalBookapi = async (req, res) => {
     try {
-
         const { search, page, limit } = req.query;
         console.log('checking params', page, limit);
 

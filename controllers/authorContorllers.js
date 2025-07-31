@@ -20,5 +20,37 @@ const authorDataInsert = async (req, res) => {
     }
 }
 
+const totalAuthors = async (req, res) => {
+    try {
+        const { search, page, limit } = req.query;
+        console.log('checking params', page, limit);
 
-module.exports = { authorDataInsert }
+
+        const total = await authorCollection.countDocuments();
+        const pageNum = Number(page);
+        const limitNum = Number(limit);
+        const skip = (pageNum - 1) * limitNum;
+
+
+        const authorData = await authorCollection.find({}).skip(skip).limit(limitNum);
+        const authorInfo = {
+            totalPages: Math.ceil(total / limitNum),
+            books: authorData
+        }
+        res.status(200).send({
+            success: true,
+            message: "Authors data successfully",
+            data: authorInfo
+        })
+
+    } catch (error) {
+        res.status(500).send({
+            success: false,
+            message: "Authors data failed",
+            error: error.message
+        })
+    }
+}
+
+
+module.exports = { authorDataInsert, totalAuthors }
