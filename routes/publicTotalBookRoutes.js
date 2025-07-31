@@ -1,10 +1,13 @@
 const express = require('express');
-const { publicTotalBooks, viewDetailsBook } = require('../controllers/publicTotalBookControllers');
+const { publicTotalBooks, viewDetailsBook, specialDiscountBook, trendingBooks } = require('../controllers/publicTotalBookControllers');
 const router = express.Router();
 
 
 router.get('/all_books', publicTotalBooks);
-router.get('/view_details/:id', viewDetailsBook)
+router.get('/view_details/:id', viewDetailsBook);
+router.get('/special_discount', specialDiscountBook);
+router.get('/trending_books', trendingBooks);
+router.get('/academic_books', trendingBooks);
 
 
 module.exports = router

@@ -38,7 +38,7 @@ const publicTotalBooks = async (req, res) => {
 
         const filteringData = await totalBooks.find({});
         const allBooks = await totalBooks.find(query).skip(skip).limit(limitNum);
-
+        console.log('recent book', allBooks)
 
         const booksData = {
             totalItems: total,
@@ -83,4 +83,42 @@ const viewDetailsBook = async (req, res) => {
 }
 
 
-module.exports = { publicTotalBooks, viewDetailsBook }
+const specialDiscountBook = async (req, res) => {
+    try {
+        const specialDiscountData = await totalBooks.find({ specialDiscount: true });
+        res.status(200).send({
+            success: true,
+            message: "Special discount data successfully",
+            data: specialDiscountData
+        })
+
+    } catch (error) {
+        res.status(500).send({
+            success: false,
+            message: "Special discount data failed",
+            error: error.message
+        })
+    }
+}
+
+const trendingBooks = async (req, res) => {
+    try {
+        const trendingBooks = await totalBooks.find({ orders: { $gt: 20 } }).sort({ orders: -1 });
+        res.status(200).send({
+            success: true,
+            message: "Trending book data successfully",
+            data: trendingBooks
+        })
+
+    } catch (error) {
+        res.status(500).send({
+            success: false,
+            message: "Trending book data failed",
+            error: error.message
+        })
+    }
+}
+
+
+
+module.exports = { publicTotalBooks, viewDetailsBook, specialDiscountBook, trendingBooks }

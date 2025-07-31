@@ -64,17 +64,23 @@ const userInformationUpdate = async (req, res) => {
 
 }
 
-// const userShippingInfoUpdate = async (req, res) => {
-//     try {
-//         const shippingInfo = req.body;
+const userNavInfo = async (req, res) => {
+    try {
+        const { email } = req.params;
+        console.log('checking nav email', email)
+        const userInfo = await User.findOne({ email: email });
+        res.status(200).send({
+            success: true,
+            message: "User Nav Information successfully",
+            data: userInfo?.image
+        })
+    } catch (error) {
+        res.status(500).send({
+            success: false,
+            message: "User Nav Information failed"
+        })
+    }
 
+}
 
-//     }catch(error){
-//         res.status(200).send({
-//             success: false,
-//             message: "Shipping Info Update Failed"
-//         })
-//     }
-// }
-
-module.exports = { userInfoApi, userInformationUpdate }
+module.exports = { userInfoApi, userInformationUpdate, userNavInfo }
