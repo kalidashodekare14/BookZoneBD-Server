@@ -14,7 +14,7 @@ const booksSchema = new mongoose.Schema({
     subcategory: { type: String, required: true },
     orders: { type: Number },
     specialDiscount: { type: Boolean },
-    type: { type: Boolean }
+    type: { type: String }
 
 })
 

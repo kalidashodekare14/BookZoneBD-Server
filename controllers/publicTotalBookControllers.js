@@ -118,7 +118,25 @@ const trendingBooks = async (req, res) => {
         })
     }
 }
+const academicBooks = async (req, res) => {
+    try {
+        // const findData = { type: "academic" }
+        const academicData = await totalBooks.find({ type: "academic" });
+        res.status(200).send({
+            success: true,
+            message: "Academic book data successfully",
+            data: academicData
+        })
+
+    } catch (error) {
+        res.status(500).send({
+            success: false,
+            message: "Academic book data failed",
+            error: error.message
+        })
+    }
+}
 
 
 
-module.exports = { publicTotalBooks, viewDetailsBook, specialDiscountBook, trendingBooks }
+module.exports = { publicTotalBooks, viewDetailsBook, specialDiscountBook, trendingBooks, academicBooks }
