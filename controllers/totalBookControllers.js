@@ -41,12 +41,26 @@ const bookAddApi = async (req, res) => {
 
 const totalBookapi = async (req, res) => {
     try {
-        const totalBook = await totalBooks.find({});
-        console.log('check total book', totalBook)
+
+        const { search, page, limit } = req.query;
+        console.log('checking params', page, limit);
+
+
+        const total = await totalBooks.countDocuments();
+        const pageNum = Number(page);
+        const limitNum = Number(limit);
+        const skip = (pageNum - 1) * limitNum;
+
+
+        const totalBook = await totalBooks.find({}).skip(skip).limit(limitNum);
+        const booksData = {
+            totalPages: Math.ceil(total / limitNum),
+            books: totalBook
+        }
         res.status(200).send({
             success: true,
             message: "All the books were successfully",
-            data: totalBook
+            data: booksData
         })
 
     } catch (error) {

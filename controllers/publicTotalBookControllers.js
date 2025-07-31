@@ -38,7 +38,6 @@ const publicTotalBooks = async (req, res) => {
 
         const filteringData = await totalBooks.find({});
         const allBooks = await totalBooks.find(query).skip(skip).limit(limitNum);
-        console.log('recent book', allBooks)
 
         const booksData = {
             totalItems: total,
@@ -120,7 +119,6 @@ const trendingBooks = async (req, res) => {
 }
 const academicBooks = async (req, res) => {
     try {
-        // const findData = { type: "academic" }
         const academicData = await totalBooks.find({ type: "academic" });
         res.status(200).send({
             success: true,
