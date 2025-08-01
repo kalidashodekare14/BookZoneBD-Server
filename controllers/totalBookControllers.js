@@ -1,34 +1,38 @@
 const totalBooks = require('../models/totalBooksModel');
-
+const authorModel = require('../models/authorModel');
 
 const bookAddApi = async (req, res) => {
     try {
-        const { book_title, author, publisher, description, price, discount, stock, book_image } = req.body;
+        const { title, author_id, publisher, description, price, stock, discount, category, subCategory, image } = req.body;
+        console.log('checking data', title, author_id, publisher, description, price, stock, discount, category, subCategory, image)
+
+        const checkAuthor = await authorModel.findById(author_id)
 
         const newbooks = await totalBooks.create({
-            book_title,
-            author,
+            title,
+            author_id,
+            author: {
+                author_id: checkAuthor._id,
+                author_name: checkAuthor.author_name
+            },
             publisher,
             description,
             price,
-            discount,
             stock,
-            book_image
-        })
+            discount,
+            category,
+            subCategory,
+            image,
+            orders: 0,
+            rating: 0,
+            specialDiscount: discount >= 30 ? true : false
+        });
+
+        console.log('create a new book', newbooks)
 
         res.status(200).send({
             success: true,
             message: "Book add successfully",
-            data: {
-                book_title: newbooks.book_title,
-                author: newbooks.author,
-                publisher: newbooks.publisher,
-                description: newbooks.description,
-                price: newbooks.price,
-                discount: newbooks.discount,
-                stock: newbooks.stock,
-                book_image: newbooks.book_image
-            }
         })
 
     } catch (error) {

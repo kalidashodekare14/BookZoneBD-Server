@@ -52,5 +52,23 @@ const totalAuthors = async (req, res) => {
     }
 }
 
+const totalAuthorsGet = async (req, res) => {
+    try {
+        const totalAuthor = await authorCollection.find({});
+        res.status(200).send({
+            success: true,
+            message: "Authors data successfully",
+            data: totalAuthor
+        })
 
-module.exports = { authorDataInsert, totalAuthors }
+    } catch (error) {
+        res.status(500).send({
+            success: false,
+            message: "Authors data failed",
+            error: error.message
+        })
+    }
+}
+
+
+module.exports = { authorDataInsert, totalAuthors, totalAuthorsGet }
