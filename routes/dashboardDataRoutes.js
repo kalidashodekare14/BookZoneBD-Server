@@ -10,7 +10,7 @@ router.get('/total_books', totalBookapi);
 router.get('/total_user', dashboardTotalUsers)
 router.post('/total_book_add', bookAddApi);
 router.post('/author_add', authorDataInsert);
-router.get('/total_author', totalAuthors)
-router.get('/authors_get', totalAuthorsGet)
+router.get('/total_author', totalAuthors);
+router.get('/authors_get', totalAuthorsGet);
 
 module.exports = router;
