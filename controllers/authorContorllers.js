@@ -1,6 +1,5 @@
 const authorCollection = require('../models/authorModel');
 
-
 const authorDataInsert = async (req, res) => {
     try {
         const authorInfo = req.body;
@@ -51,7 +50,7 @@ const totalAuthors = async (req, res) => {
         })
     }
 }
-
+// Add Book Author dropdown api set
 const totalAuthorsGet = async (req, res) => {
     try {
         const totalAuthor = await authorCollection.find({});
@@ -69,6 +68,5 @@ const totalAuthorsGet = async (req, res) => {
         })
     }
 }
-
 
 module.exports = { authorDataInsert, totalAuthors, totalAuthorsGet }

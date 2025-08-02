@@ -5,7 +5,6 @@ const adminVarify = async (req, res) => {
         const userFromParams = req.params.email;
         const userByFromToken = req.user;
         const adminInfo = await User.findById(userByFromToken);
-        console.log('checking data for admin', userFromParams);
 
         if (userFromParams !== adminInfo.email) {
             return res.status(403).send({
