@@ -1,5 +1,6 @@
 const totalBooks = require("../models/totalBooksModel");
 const totalAuthorsModel = require('../models/authorModel');
+const writerModel = require('../models/authorModel')
 
 const publicTotalBooks = async (req, res) => {
     try {
@@ -61,6 +62,7 @@ const publicTotalBooks = async (req, res) => {
         })
     }
 }
+
 
 
 
@@ -154,6 +156,34 @@ const totalAuthors = async (req, res) => {
     }
 }
 
+const writerDetails = async (req, res) => {
+    try {
+        const id = req.params.id
+        const viewWriterData = await writerModel.findById(id);
+        const writerBookData = await totalBooks.find({ author_id: id })
+
+        console.log('checking writer book data', writerBookData)
+
+        const writerData = {
+            writer_name: viewWriterData.author_name,
+            writer_image: viewWriterData.author_image,
+            writer_bio: viewWriterData.author_bio,
+            books: writerBookData
+        }
+        res.status(200).send({
+            success: true,
+            message: "Writer data failed",
+            data: writerData
+        })
+    } catch (error) {
+        res.status(500).send({
+            success: false,
+            message: "Writer data failed",
+            error: error.message
+        })
+    }
+}
 
 
-module.exports = { publicTotalBooks, viewDetailsBook, specialDiscountBook, trendingBooks, academicBooks, totalAuthors }
+
+module.exports = { publicTotalBooks, viewDetailsBook, specialDiscountBook, trendingBooks, academicBooks, totalAuthors, writerDetails }

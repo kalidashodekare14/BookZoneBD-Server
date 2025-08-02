@@ -5,9 +5,9 @@ const { dashboardTotalUsers } = require('../controllers/dashboardTotalUserContro
 const { dashboardTotalInfo } = require('../controllers/dashboardTotalInfoController');
 const { authorDataInsert, totalAuthors, totalAuthorsGet } = require('../controllers/authorContorllers');
 
-router.get('/total_info', dashboardTotalInfo)
+router.get('/total_info', dashboardTotalInfo);
 router.get('/total_books', totalBookapi);
-router.get('/total_user', dashboardTotalUsers)
+router.get('/total_user', dashboardTotalUsers);
 router.post('/total_book_add', bookAddApi);
 router.post('/author_add', authorDataInsert);
 router.get('/total_author', totalAuthors);
