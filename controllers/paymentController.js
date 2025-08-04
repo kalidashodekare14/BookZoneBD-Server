@@ -6,7 +6,7 @@ const paymentIntegration = async (req, res) => {
     try {
         const paymentInfo = req.body;
         const tnxId = crypto.randomBytes(8).toString("hex");
-        // console.log('check payment data', paymentInfo);
+        console.log('checking payment Info', paymentInfo);
 
         const addressData = paymentInfo.addressInfo
         const products = paymentInfo.products
@@ -52,8 +52,6 @@ const paymentIntegration = async (req, res) => {
                 "content-type": "application/x-www-form-urlencoded"
             }
         })
-
-        console.log('checking payment data', response)
 
 
         const saveData = {
