@@ -6,7 +6,7 @@ const { dashboardTotalInfo } = require('../controllers/dashboardTotalInfoControl
 const { authorDataInsert, totalAuthors, totalAuthorsGet } = require('../controllers/authorContorllers');
 const { orderManage, orderDetails } = require('../controllers/orderManageControllers')
 const { orderReceiptApi } = require('../controllers/orderReceiptController');
-
+const { totalReviews } = require('../controllers/totalReviewControllers')
 
 router.get('/total_info', dashboardTotalInfo);
 router.get('/total_books', totalBookapi);
@@ -19,5 +19,6 @@ router.get('/authors_get', totalAuthorsGet);
 router.get('/order_manage', orderManage);
 router.get('/order_details/:id', orderDetails);
 router.get('/order_receipt/:id', orderReceiptApi);
+router.get('/total_review', totalReviews);
 
 module.exports = router;
