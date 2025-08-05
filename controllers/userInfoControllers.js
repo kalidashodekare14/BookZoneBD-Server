@@ -4,7 +4,7 @@ const userInfoApi = async (req, res) => {
     try {
         const userFromParams = req.params.email;
         const userIdFromToken = req.user;
-        const userInfo = await User.findById(userIdFromToken).lean();
+        const userInfo = await User.findById(userIdFromToken.id).lean();
 
         if (!userInfo || userInfo.email !== userFromParams) {
             return res.status(403).send({
@@ -64,23 +64,21 @@ const userInformationUpdate = async (req, res) => {
 
 }
 
-const userNavInfo = async (req, res) => {
+const userRoleVarify = async (req, res) => {
     try {
-        const { email } = req.params;
-        console.log('checking nav email', email)
-        const userInfo = await User.findOne({ email: email });
+        const role = req.user.role
         res.status(200).send({
             success: true,
-            message: "User Nav Information successfully",
-            data: userInfo?.image
+            message: "User role successfully",
+            role: role
         })
     } catch (error) {
         res.status(500).send({
             success: false,
-            message: "User Nav Information failed"
+            message: "User role failed"
         })
     }
 
 }
 
-module.exports = { userInfoApi, userInformationUpdate, userNavInfo }
+module.exports = { userInfoApi, userInformationUpdate, userRoleVarify }

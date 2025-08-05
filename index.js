@@ -27,16 +27,13 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 
-
-
-
 app.use('/api/user', userRoutes);
 app.use('/api/user_verify', authMiddleware, usrVerifyRoutes)
 app.use('/api/userInfo', authMiddleware, userInfo);
 app.use('/api/dashboard', dashboardData);
 app.use('/api/public', publicBooks);
 app.use('/api/payment', paymentIntegration);
-app.use('/api/password_reset', passwordReset)
+app.use('/api/password_reset', passwordReset);
 
 
 
