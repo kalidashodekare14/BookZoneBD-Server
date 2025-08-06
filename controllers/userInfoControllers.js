@@ -64,7 +64,7 @@ const userInformationUpdate = async (req, res) => {
 
 }
 
-const userRoleVarify = async (req, res) => {
+const userRoleVerify = async (req, res) => {
     try {
         const role = req.user.role
         res.status(200).send({
@@ -81,4 +81,4 @@ const userRoleVarify = async (req, res) => {
 
 }
 
-module.exports = { userInfoApi, userInformationUpdate, userRoleVarify }
+module.exports = { userInfoApi, userInformationUpdate, userRoleVerify }

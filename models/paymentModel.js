@@ -21,5 +21,5 @@ const paymentSchema = new mongoose.Schema({
     currency: { type: String },
 }, { timestamps: true });
 
-const paymentData = mongoose.model("payment_info", paymentSchema);
+const paymentData = mongoose.model("OrderInfo", paymentSchema);
 module.exports = paymentData;
