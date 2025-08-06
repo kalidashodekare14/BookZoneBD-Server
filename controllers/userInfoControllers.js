@@ -1,4 +1,5 @@
 const User = require('../models/userModel');
+const userOrderModel = require('../models/paymentModel');
 
 const userInfoApi = async (req, res) => {
     try {
@@ -81,4 +82,24 @@ const userRoleVerify = async (req, res) => {
 
 }
 
-module.exports = { userInfoApi, userInformationUpdate, userRoleVerify }
+
+const userOrderInfo = async (req, res) => {
+    try {
+        const { email } = req.params
+        console.log('checking email', email)
+        const userOrder = await userOrderModel.find({ customar_email: email });
+        res.status(200).send({
+            success: true,
+            message: "User Order data successfully",
+            data: userOrder
+        })
+    } catch (error) {
+        res.status(500).send({
+            success: false,
+            message: "User Order data failed",
+            error: error.message
+        })
+    }
+}
+
+module.exports = { userInfoApi, userInformationUpdate, userRoleVerify, userOrderInfo }
