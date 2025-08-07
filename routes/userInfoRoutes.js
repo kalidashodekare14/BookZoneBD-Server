@@ -10,4 +10,4 @@ router.patch('/user_information_update/:email', userInformationUpdate);
 router.get('/user_role', userRoleVerify);
 router.get('/user_order/:email', userOrderInfo);
 
-module.exports = router
+module.exports = router;

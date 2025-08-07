@@ -63,7 +63,8 @@ const paymentIntegration = async (req, res) => {
             currency: paymentInfo.currency,
             addressData,
             products,
-            status: "Pending",
+            payment_status: "Pending",
+            order_status: "Pending"
         }
         const save = await paymentModel.create(saveData);
         if (save) {
@@ -93,7 +94,7 @@ const paymentSucces = async (req, res) => {
             { tran_id: successData?.tran_id },
             {
                 $set: {
-                    status: "Success"
+                    payment_status: "Success"
                 }
             }
         )
@@ -130,7 +131,8 @@ const cashOnPayment = async (req, res) => {
             currency: paymentInfo.currency,
             addressData,
             products,
-            status: "Pending",
+            payment_status: "Pending",
+            order_status: "Pending"
         }
         await paymentModel.create(saveData);
         res.status(200).send({

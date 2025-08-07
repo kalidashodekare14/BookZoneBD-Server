@@ -10,7 +10,7 @@ const userInfo = require('./routes/userInfoRoutes');
 const publicBooks = require('./routes/publicTotalBookRoutes');
 const authMiddleware = require('./middlewares/authMiddleware');
 const usrVerifyRoutes = require('./routes/userVerifyRoutes');
-const paymentIntegration = require('./routes/usePaymentRoutes');
+const orderRoutes = require('./routes/orderRoutes');
 const passwordReset = require('./routes/passwordResetRoutes');
 
 const app = express();
@@ -32,7 +32,7 @@ app.use('/api/user_verify', authMiddleware, usrVerifyRoutes)
 app.use('/api/userInfo', authMiddleware, userInfo);
 app.use('/api/dashboard', dashboardData);
 app.use('/api/public', publicBooks);
-app.use('/api/payment', paymentIntegration);
+app.use('/api/order', orderRoutes);
 app.use('/api/password_reset', passwordReset);
 
 

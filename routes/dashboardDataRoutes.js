@@ -4,7 +4,7 @@ const { bookAddApi, totalBookapi } = require('../controllers/totalBookController
 const { dashboardTotalUsers } = require('../controllers/dashboardTotalUserControllers');
 const { dashboardTotalInfo } = require('../controllers/dashboardTotalInfoController');
 const { authorDataInsert, totalAuthors, totalAuthorsGet } = require('../controllers/authorContorllers');
-const { orderManage, orderDetails } = require('../controllers/orderManageControllers')
+const { orderManage, orderStatus, orderDetails } = require('../controllers/orderManageControllers')
 const { orderReceiptApi } = require('../controllers/orderReceiptController');
 const { totalReviews } = require('../controllers/totalReviewControllers')
 
@@ -17,8 +17,10 @@ router.get('/total_author', totalAuthors);
 // Add Book Author dropdown api set 👇 (/authors_get);
 router.get('/authors_get', totalAuthorsGet);
 router.get('/order_manage', orderManage);
+router.patch('/order_status/:id', orderStatus);
 router.get('/order_details/:id', orderDetails);
 router.get('/order_receipt/:id', orderReceiptApi);
 router.get('/total_review', totalReviews);
+
 
 module.exports = router;

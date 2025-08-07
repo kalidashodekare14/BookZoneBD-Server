@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 
-
 const paymentSchema = new mongoose.Schema({
     tran_id: { type: String },
     customar_name: { type: String },
@@ -13,9 +12,14 @@ const paymentSchema = new mongoose.Schema({
     products: {
         type: Array
     },
-    status: {
+    payment_status: {
         type: String,
         enum: ["Pending", "Paid", "Failed"],
+        default: "Pending"
+    },
+    order_status: {
+        type: String,
+        enum: ["Pending", "Processing","Delivered", "Cancelled"],
         default: "Pending"
     },
     currency: { type: String },
