@@ -18,7 +18,7 @@ const booksSchema = new mongoose.Schema({
     specialDiscount: { type: Boolean },
     type: { type: String }
 
-})
+}, { timestamps: true })
 
 
 const totalBooks = mongoose.model('total_books', booksSchema);

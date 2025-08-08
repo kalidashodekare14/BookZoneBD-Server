@@ -114,9 +114,14 @@ const writerBookCreate = async (req, res) => {
 const writerTotalBook = async (req, res) => {
     try {
         const id = req.params.id
-        const totalBooks = await bookModel.find({ author_id: id })
-        console.log('chekcing writer data', totalBooks);
+        console.log('checking writer id', id)
+        const totalBooks = await bookModel.find({ author_id: id }).sort({ createdAt: -1 })
 
+        res.status(200).send({
+            success: true,
+            message: "Writer total book successfully",
+            data: totalBooks
+        })
     } catch (error) {
         res.status(500).send({
             success: false,

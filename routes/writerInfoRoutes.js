@@ -7,7 +7,7 @@ const { writerInfo, writerInfoUpdate, writerBookCreate, writerTotalBook } = requ
 router.get('/writer_info/:email', writerInfo);
 router.patch('/writer_info_update/:email', writerInfoUpdate);
 router.post('/writer_book_create', writerBookCreate);
-router.get('/writer_my_book', writerTotalBook);
+router.get('/writer_my_book/:id', writerTotalBook);
 
 
 module.exports = router
