@@ -7,6 +7,7 @@ const connectDB = require("./config/db");
 const userRoutes = require('./routes/userRoutes');
 const dashboardData = require('./routes/dashboardDataRoutes');
 const userInfo = require('./routes/userInfoRoutes');
+const writerInfo = require('./routes/writerInfoRoutes');
 const publicBooks = require('./routes/publicTotalBookRoutes');
 const authMiddleware = require('./middlewares/authMiddleware');
 const usrVerifyRoutes = require('./routes/userVerifyRoutes');
@@ -30,6 +31,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/api/user', userRoutes);
 app.use('/api/user_verify', authMiddleware, usrVerifyRoutes)
 app.use('/api/userInfo', authMiddleware, userInfo);
+app.use('/api/writerInfo', authMiddleware, writerInfo);
 app.use('/api/dashboard', dashboardData);
 app.use('/api/public', publicBooks);
 app.use('/api/order', orderRoutes);

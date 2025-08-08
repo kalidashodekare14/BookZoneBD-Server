@@ -18,7 +18,8 @@ const registerUser = async (req, res) => {
 
         const newUser = await User.create({
             email,
-            password: passwordHashed
+            password: passwordHashed,
+            role: "User"
         });
 
         const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {
@@ -105,7 +106,8 @@ const googleAuthUser = async (req, res) => {
             email,
             image,
             isGoogleUser,
-            password: dummyPassword
+            password: dummyPassword,
+            role: "User"
         });
 
         const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {
