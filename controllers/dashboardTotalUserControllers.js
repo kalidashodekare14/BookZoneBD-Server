@@ -46,7 +46,31 @@ const dashboardTotalUsers = async (req, res) => {
     }
 }
 
+const dashboardUserRole = async (req, res) => {
+    try {
+        const id = req.params.id
+        const roleData = req.body;
+        const userRole = await Users.findByIdAndUpdate(
+            id,
+            { $set: { role: roleData.role } },
+            { new: true }
+        );
+        res.status(200).send({
+            success: true,
+            message: "User role update successfully",
+            data: userRole
+        })
 
-module.exports = { dashboardTotalUsers }
+    } catch (error) {
+        res.status(500).send({
+            success: false,
+            message: "User role update failed",
+            error: error.message
+        })
+    }
+}
+
+
+module.exports = { dashboardTotalUsers, dashboardUserRole }
 
 
