@@ -67,11 +67,12 @@ const userInformationUpdate = async (req, res) => {
 
 const userRoleVerify = async (req, res) => {
     try {
-        const role = req.user.role
+        const id = req.user.id
+        const roleChecking = await User.findById(id)
         res.status(200).send({
             success: true,
             message: "User role successfully",
-            role: role
+            role: roleChecking.role
         })
     } catch (error) {
         res.status(500).send({
