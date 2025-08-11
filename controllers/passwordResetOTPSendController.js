@@ -3,6 +3,7 @@ const nodemailer = require("nodemailer");
 const userModel = require('../models/userModel');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+const admin = require('../firebaseAdmin');
 
 
 const passwordResetSentMail = async (req, res) => {
@@ -88,6 +89,10 @@ const passwordReset = async (req, res) => {
             userFind._id,
             { $set: { password: hashPassword, resetToken: null } }
         )
+
+        const firebaseUser = await admin.auth().getUserByEmail(userFind.email);
+        const firebaseUid = firebaseUser.uid;
+        await admin.auth().updateUser(firebaseUid, { password: password })
 
         res.status(200).send({
             success: true,
