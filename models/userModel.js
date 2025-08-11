@@ -21,7 +21,8 @@ const userSchema = new mongoose.Schema({
     union: { type: String },
     address: { type: String },
     image: { type: String },
-    role: { type: String }
+    role: { type: String },
+    resetToken: { type: String }
 
 }, { timestamps: true });
 

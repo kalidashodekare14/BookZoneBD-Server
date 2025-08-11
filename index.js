@@ -35,7 +35,7 @@ app.use('/api/writerInfo', authMiddleware, writerInfo);
 app.use('/api/dashboard', authMiddleware, dashboardData);
 app.use('/api/public', publicBooks);
 app.use('/api/order', orderRoutes);
-app.use('/api/password_reset', passwordReset);
+app.use('/api/password_manage', passwordReset);
 
 
 

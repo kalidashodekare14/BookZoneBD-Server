@@ -1,29 +1,34 @@
 const otpModel = require('../models/otpModel');
 const nodemailer = require("nodemailer");
 const userModel = require('../models/userModel');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 
 
-
-const otpSendSytem = async (req, res) => {
+const passwordResetSentMail = async (req, res) => {
     try {
-        const { email } = req.body;
-        console.log('email chcking', email)
-        const userCollection = await userModel.findOne({ email });
-        if (!userCollection) {
-            return res.status(404).send({
+        const emailInfo = req.body;
+        console.log('checking email', emailInfo.email);
+
+        const userVerify = await userModel.findOne({ email: emailInfo.email });
+
+        if (!userVerify) {
+            return res.status(400).send({
                 success: false,
-                message: "Could not find user",
+                message: "User not found"
             })
         }
-        const generateOTP = () => {
-            return Math.floor(1000 + Math.random() * 900).toString();
-        }
 
-        const otp = generateOTP();
-        const expireAt = new Date(Date.now() + 5 * 60000);
-        await otpModel.findOneAndDelete({ email });
+        const token = jwt.sign({ id: userVerify._id }, process.env.JWT_SECRET, { expiresIn: '1h' })
+        const updateUser = await userModel.findByIdAndUpdate(
+            userVerify._id,
+            { $set: { resetToken: token } },
+            { new: true }
+        )
 
-        await otpModel.create({ email, otp, expireAt });
+        console.log('checking update user', updateUser);
+
+        const resetLink = `${process.env.FRONTEND_URL}/reset_password?token=${token}`
 
         const transporter = nodemailer.createTransport({
             // host: process.env.NEXT_EMAIL, 
@@ -36,54 +41,67 @@ const otpSendSytem = async (req, res) => {
 
         await transporter.sendMail({
             from: process.env.NEXT_EMAIL,
-            to: email,
+            to: emailInfo.email,
             subject: "Password Reset",
-            text: `Your OTP is ${otp}. It will expire in 5  minites`
+            html: `<div style="font-family: Arial, sans-serif; border: 1px solid #ddd; border-radius: 10px; max-width: 500px; margin: auto; padding: 20px;">
+               <h2 style="color: #307bc4; text-align: center; ">Forget Password</h2>
+               <p>Hi!</p>
+               <p style="color: black;">We received a request to reset your password. Click the button below to proceed.</p>
+               <div style="text-align: center;">
+               <a style="background-color: #307bc4; color: white; padding: 12px 20px; text-decoration: none;" href="${resetLink}">
+                  Reset Password
+               </a>
+               </div>
+               <p style="color: black;">If you didn't request this, you can safely ignore this email.</p>
+               <hr style="border: none; border-top: 1px solid #ddd; margin: 20px 0;">
+              <p style="font-size: 13px; text-align: center; color: #666;">If you have any issues, contact our BookZoneBD support team.</p>
+           </div>`
         })
 
         res.status(200).send({
             success: true,
-            message: "Otp send successfully",
+            message: "Reset link send your email"
         })
 
     } catch (error) {
         res.status(500).send({
             success: false,
-            message: "Otp send failed"
+            message: "Reset mail sending failed",
+            error: error.message
         })
     }
-
 }
 
-const verifyOtp = async (req, res) => {
-    const { email, otp } = req.body;
+const passwordReset = async (req, res) => {
+    try {
+        const { token, password } = req.body;
+        const decoded_id = jwt.verify(token, process.env.JWT_SECRET);
+        const userFind = await userModel.findById(decoded_id.id);
+        if (!userFind) {
+            return res.status(400).send({
+                success: false,
+                message: "Invalid token"
+            })
+        }
+        const hashPassword = await bcrypt.hash(password, 14);
+        await userModel.findByIdAndUpdate(
+            userFind._id,
+            { $set: { password: hashPassword, resetToken: null } }
+        )
 
-    const record = await otpModel.findOne({ email });
-    if (!record) {
-        return res.status(400).send({
+        res.status(200).send({
+            success: true,
+            message: "Password reset successfully",
+        })
+
+    } catch (error) {
+        res.status(500).send({
             success: false,
-            message: "No TOP found"
+            message: "Password reset failed",
+            error: error.message
         })
     }
-    if (record.otp !== otp) {
-        return res.status(400).send({
-            success: false,
-            message: "Invalid Otp"
-        })
-    }
-    if (record.expireAt < new Date()) {
-        return res.status(400).send({
-            success: false,
-            message: "OTP expired"
-        })
-    }
-    // await otpModel.deleteOne({ email });
-
-    res.status(200).send({
-        success: true,
-        message: "OTP Verifyed successfully"
-    })
-
 }
 
-module.exports = { otpSendSytem, verifyOtp }
+
+module.exports = { passwordResetSentMail, passwordReset }
