@@ -40,7 +40,7 @@ app.use('/api/password_manage', passwordReset);
 
 
 app.get('/', async (req, res) => {
-    res.send('EcoForce server running');
+    res.send('BookZoneBD server running');
 })
 
 app.listen(process.env.PORT, () => {

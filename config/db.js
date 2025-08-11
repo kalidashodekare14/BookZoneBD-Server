@@ -4,15 +4,16 @@ const connectDB = async () => {
 
     if (!process.env.MONGODB_URI) {
         console.log("MongoDB_URI is not set in env");
-        process.exit(1);
+        // process.exit(1);
+        return
     }
 
     try {
         const conn = await mongoose.connect(process.env.MONGODB_URI);
         console.log(`MongoDB Connected ${conn.connection.host}`)
     } catch (error) {
-        console.error(error);
-        process.exit(1);
+        console.error("MongoDB connection error", error.message);
+        // process.exit(1);
     }
 }
 

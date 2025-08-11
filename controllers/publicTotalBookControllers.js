@@ -58,7 +58,7 @@ const publicTotalBooks = async (req, res) => {
         res.status(500).send({
             success: false,
             message: "Total book failed",
-            error
+            error: error.message
         })
     }
 }
