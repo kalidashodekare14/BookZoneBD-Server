@@ -4,6 +4,15 @@ const Book = require('../models/totalBooksModel');
 
 const dashboardTotalInfo = async (req, res) => {
     try {
+        const id = req.user.id
+        const userVerify = await User.findById(id);
+        if (userVerify.role.toLowerCase() !== "admin") {
+            res.status(400).send({
+                success: false,
+                message: "Forbidden access - admin mismatch",
+            })
+        }
+
         const totalUser = await User.countDocuments();
         const totalBook = await Book.countDocuments();
 

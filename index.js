@@ -32,7 +32,7 @@ app.use('/api/user', userRoutes);
 app.use('/api/user_verify', authMiddleware, usrVerifyRoutes)
 app.use('/api/userInfo', authMiddleware, userInfo);
 app.use('/api/writerInfo', authMiddleware, writerInfo);
-app.use('/api/dashboard', dashboardData);
+app.use('/api/dashboard', authMiddleware, dashboardData);
 app.use('/api/public', publicBooks);
 app.use('/api/order', orderRoutes);
 app.use('/api/password_reset', passwordReset);

@@ -1,9 +1,20 @@
 const authorCollection = require('../models/authorModel');
+const Users = require('../models/userModel');
 
 const authorDataInsert = async (req, res) => {
     try {
         const authorInfo = req.body;
-        console.log('checking data', authorInfo)
+        const id = req.user.id
+
+        const userVerify = await Users.findById(id);
+        if (userVerify.role.toLowerCase() !== "admin") {
+            res.status(400).send({
+                success: false,
+                message: "Forbidden access - admin mismatch",
+            })
+        }
+
+
         const authorData = await authorCollection.create(authorInfo);
         res.status(200).send({
             success: true,
@@ -22,7 +33,15 @@ const authorDataInsert = async (req, res) => {
 const totalAuthors = async (req, res) => {
     try {
         const { search, page, limit } = req.query;
-        console.log('checking params', page, limit);
+        const id = req.user.id
+
+        const userVerify = await Users.findById(id);
+        if (userVerify.role.toLowerCase() !== "admin") {
+            res.status(400).send({
+                success: false,
+                message: "Forbidden access - admin mismatch",
+            })
+        }
 
 
         const total = await authorCollection.countDocuments();
@@ -53,6 +72,15 @@ const totalAuthors = async (req, res) => {
 // Add Book Author dropdown api set
 const totalAuthorsGet = async (req, res) => {
     try {
+        const id = req.user.id
+        const userVerify = await Users.findById(id);
+        if (userVerify.role.toLowerCase() !== "admin") {
+            res.status(400).send({
+                success: false,
+                message: "Forbidden access - admin mismatch",
+            })
+        }
+
         const totalAuthor = await authorCollection.find({});
         res.status(200).send({
             success: true,

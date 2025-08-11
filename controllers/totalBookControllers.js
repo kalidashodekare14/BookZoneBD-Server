@@ -1,11 +1,19 @@
 const totalBooks = require('../models/totalBooksModel');
 const authorModel = require('../models/authorModel');
-
+const Users = require('../models/userModel');
 
 const bookAddApi = async (req, res) => {
     try {
         const { title, author_id, publisher, description, price, stock, discount, category, subCategory, image } = req.body;
-        console.log('checking data', title, author_id, publisher, description, price, stock, discount, category, subCategory, image)
+        const id = req.user.id
+
+        const userVerify = await Users.findById(id);
+        if (userVerify.role.toLowerCase() !== "admin") {
+            res.status(400).send({
+                success: false,
+                message: "Forbidden access - admin mismatch",
+            })
+        }
 
         const checkAuthor = await authorModel.findById(author_id)
 
@@ -47,7 +55,15 @@ const bookAddApi = async (req, res) => {
 const totalBookapi = async (req, res) => {
     try {
         const { search, page, limit } = req.query;
-        console.log('checking params', page, limit);
+
+        const id = req.user.id
+        const userVerify = await Users.findById(id);
+        if (userVerify.role.toLowerCase() !== "admin") {
+            res.status(400).send({
+                success: false,
+                message: "Forbidden access - admin  mismatch",
+            })
+        }
 
 
         const total = await totalBooks.countDocuments();

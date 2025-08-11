@@ -3,7 +3,15 @@ const Users = require('../models/userModel');
 const dashboardTotalUsers = async (req, res) => {
     try {
         const { search, page, limit } = req.query;
-        console.log('checking all users api query', search, page, limit)
+        const id = req.user.id
+
+        const userVerify = await Users.findById(id);
+        if (userVerify.role.toLowerCase() !== "admin") {
+            res.status(400).send({
+                success: false,
+                message: "Forbidden access - user mismatch",
+            })
+        }
 
         const query = {}
 
@@ -50,6 +58,16 @@ const dashboardUserRole = async (req, res) => {
     try {
         const id = req.params.id
         const roleData = req.body;
+        const verifyId = req.user.id
+
+        const userVerify = await Users.findById(verifyId);
+        if (userVerify.role.toLowerCase() !== "admin") {
+            res.status(400).send({
+                success: false,
+                message: "Forbidden access - admin mismatch",
+            })
+        }
+
         const userRole = await Users.findByIdAndUpdate(
             id,
             { $set: { role: roleData.role } },

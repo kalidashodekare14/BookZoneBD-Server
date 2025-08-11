@@ -1,11 +1,22 @@
 const puppeteer = require('puppeteer');
 const paymentModel = require('../models/paymentModel');
+const Users = require('../models/userModel');
 
 const orderReceiptApi = async (req, res) => {
-    try {
-        const orderId = req.params.id;
-        const orderInfo = await paymentModel.findById(orderId);
-        const htmlContent = `
+  try {
+    const orderId = req.params.id;
+    const id = req.user.id;
+
+    const userVerify = await Users.findById(id);
+    if (userVerify.role.toLowerCase() !== "admin") {
+      res.status(400).send({
+        success: false,
+        message: "Forbidden access - admin mismatch",
+      })
+    }
+
+    const orderInfo = await paymentModel.findById(orderId);
+    const htmlContent = `
     <html>
       <head>
         <style>
@@ -30,22 +41,22 @@ const orderReceiptApi = async (req, res) => {
       </body>
     </html>
     `;
-        const browser = await puppeteer.launch();
-        const page = await browser.newPage();
-        await page.setContent(htmlContent);
-        const pdfBuffter = await page.pdf({ format: "A4" });
-        await browser.close();
+    const browser = await puppeteer.launch();
+    const page = await browser.newPage();
+    await page.setContent(htmlContent);
+    const pdfBuffter = await page.pdf({ format: "A4" });
+    await browser.close();
 
-        res.setHeader('Content-Type', 'application/pdf');
-        res.setHeader('Content-Disposition', `attachment; filename=payment_${orderId}.pdf`);
-        res.send(pdfBuffter);
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader('Content-Disposition', `attachment; filename=payment_${orderId}.pdf`);
+    res.send(pdfBuffter);
 
-    } catch (error) {
-        res.status(500).send({
-            success: false,
-            message: "Order Data pdf create failed"
-        })
-    }
+  } catch (error) {
+    res.status(500).send({
+      success: false,
+      message: "Order Data pdf create failed"
+    })
+  }
 
 }
 
