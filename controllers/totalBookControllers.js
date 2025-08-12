@@ -47,7 +47,8 @@ const bookAddApi = async (req, res) => {
     } catch (error) {
         res.status(500).send({
             success: false,
-            message: "Failed to add book"
+            message: "Failed to add book",
+            error: error.message
         })
     }
 }
@@ -86,7 +87,8 @@ const totalBookapi = async (req, res) => {
     } catch (error) {
         res.status(500).send({
             success: false,
-            message: "Failed to show all the books."
+            message: "Failed to show all the books.",
+            error: error.message
         })
     }
 

@@ -24,7 +24,7 @@ const adminVarify = async (req, res) => {
         res.status(500).send({
             success: false,
             message: "Admin varify failed",
-            error
+            error: error.message
         })
     }
 }

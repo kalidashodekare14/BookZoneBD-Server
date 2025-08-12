@@ -54,7 +54,8 @@ const orderReceiptApi = async (req, res) => {
   } catch (error) {
     res.status(500).send({
       success: false,
-      message: "Order Data pdf create failed"
+      message: "Order Data pdf create failed",
+      error: error.message
     })
   }
 

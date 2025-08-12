@@ -79,7 +79,7 @@ const viewDetailsBook = async (req, res) => {
         res.status(500).send({
             success: false,
             message: "View data failed",
-            error
+            error: error.message
         })
     }
 }

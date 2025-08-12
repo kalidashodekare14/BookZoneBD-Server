@@ -78,7 +78,8 @@ const paymentIntegration = async (req, res) => {
     } catch (error) {
         res.status(500).send({
             success: false,
-            message: "Payment failed"
+            message: "Payment failed",
+            error: error.message
         })
     }
 }
@@ -104,7 +105,8 @@ const paymentSucces = async (req, res) => {
     } catch (error) {
         res.status(500).send({
             success: false,
-            message: "Status not update"
+            message: "Status not update",
+            error: error.message
         })
     }
 }
@@ -143,7 +145,8 @@ const cashOnPayment = async (req, res) => {
     } catch (error) {
         res.status(500).send({
             success: false,
-            message: "Payment failed"
+            message: "Payment failed",
+            error: error.message
         })
     }
 }

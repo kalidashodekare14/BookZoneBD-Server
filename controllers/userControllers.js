@@ -6,6 +6,7 @@ const crypto = require('crypto');
 const registerUser = async (req, res) => {
     try {
         const { email, password } = req.body;
+        console.log('checking data', email, password)
         const passwordHashed = await bcrypt.hash(password, 14)
         const userEmail = await User.findOne({ email })
 
@@ -40,7 +41,7 @@ const registerUser = async (req, res) => {
         res.status(500).send({
             success: false,
             message: 'User Registration failed',
-            error,
+            error: error.message
         })
     }
 }
@@ -77,7 +78,7 @@ const loginUser = async (req, res) => {
         res.status(500).send({
             success: false,
             message: 'User Login failed',
-            error,
+            error: error.message
         })
     }
 }
@@ -131,7 +132,7 @@ const googleAuthUser = async (req, res) => {
         res.status(500).send({
             success: false,
             message: 'Google Auth Registration failed',
-            error,
+            error: error.message
         })
     }
 

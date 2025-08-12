@@ -24,7 +24,8 @@ const userInfoApi = async (req, res) => {
     } catch (error) {
         res.status(500).send({
             success: false,
-            message: "Failed to find user."
+            message: "Failed to find user.",
+            error: error.message
         })
     }
 }
@@ -59,7 +60,7 @@ const userInformationUpdate = async (req, res) => {
         res.status(500).send({
             success: false,
             message: "User Infomation update failed",
-            error
+            error: error.message
         })
     }
 
@@ -77,7 +78,8 @@ const userRoleVerify = async (req, res) => {
     } catch (error) {
         res.status(500).send({
             success: false,
-            message: "User role failed"
+            message: "User role failed",
+            error: error.message
         })
     }
 
