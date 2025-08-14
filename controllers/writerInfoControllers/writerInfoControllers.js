@@ -131,4 +131,35 @@ const writerTotalBook = async (req, res) => {
     }
 }
 
-module.exports = { writerInfo, writerInfoUpdate, writerBookCreate, writerTotalBook }
+
+const writerBookUpdate = async (req, res) => {
+    try {
+        const book = req.body
+        const id = req.params.id
+        console.log('checking data and id', book, id);
+        const writerBook = await bookModel.findByIdAndUpdate(
+            id,
+            {
+                $set: {
+                    ...book
+                }
+            },
+            { new: true }
+        )
+        console.log('checking update book', writerBook)
+        res.status(200).send({
+            success: true,
+            message: "Writer book data update successfully",
+            data: writerBook
+        })
+
+    } catch (error) {
+        res.status(500).send({
+            success: false,
+            message: "Writer book data update failed",
+            error: error.message
+        })
+    }
+}
+
+module.exports = { writerInfo, writerInfoUpdate, writerBookCreate, writerTotalBook, writerBookUpdate }

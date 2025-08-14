@@ -16,7 +16,9 @@ const booksSchema = new mongoose.Schema({
     orders: { type: Number },
     rating: { type: Number },
     specialDiscount: { type: Boolean },
-    type: { type: String }
+    type: { type: String },
+    totalReviews: {type: Number},
+    averageRating: {type: Number}
 
 }, { timestamps: true })
 

@@ -1,6 +1,6 @@
 const totalBooks = require("../models/totalBooksModel");
 const totalAuthorsModel = require('../models/authorModel');
-const writerModel = require('../models/authorModel')
+const userModel = require('../models/userModel');
 
 const publicTotalBooks = async (req, res) => {
     try {
@@ -62,9 +62,6 @@ const publicTotalBooks = async (req, res) => {
         })
     }
 }
-
-
-
 
 const viewDetailsBook = async (req, res) => {
     try {
@@ -138,9 +135,9 @@ const academicBooks = async (req, res) => {
     }
 }
 
-const totalAuthors = async (req, res) => {
+const totalWriters = async (req, res) => {
     try {
-        const authorsData = await totalAuthorsModel.find({});
+        const authorsData = await userModel.find({ role: "Writer" });
         res.status(200).send({
             success: true,
             message: "Total Author data successfully",
@@ -159,15 +156,15 @@ const totalAuthors = async (req, res) => {
 const writerDetails = async (req, res) => {
     try {
         const id = req.params.id
-        const viewWriterData = await writerModel.findById(id);
+        const viewWriterData = await userModel.findById(id);
         const writerBookData = await totalBooks.find({ author_id: id })
 
         console.log('checking writer book data', writerBookData)
 
         const writerData = {
-            writer_name: viewWriterData.author_name,
-            writer_image: viewWriterData.author_image,
-            writer_bio: viewWriterData.author_bio,
+            writer_name: viewWriterData.name,
+            writer_image: viewWriterData.image,
+            writer_bio: viewWriterData.description,
             books: writerBookData
         }
         res.status(200).send({
@@ -186,4 +183,4 @@ const writerDetails = async (req, res) => {
 
 
 
-module.exports = { publicTotalBooks, viewDetailsBook, specialDiscountBook, trendingBooks, academicBooks, totalAuthors, writerDetails }
+module.exports = { publicTotalBooks, viewDetailsBook, specialDiscountBook, trendingBooks, academicBooks, totalWriters, writerDetails }

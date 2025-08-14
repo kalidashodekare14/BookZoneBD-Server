@@ -17,7 +17,7 @@ const adminVarify = async (req, res) => {
         res.status(200).send({
             success: true,
             message: "Admin successfuly",
-            admin: isAdmin
+            admin: isAdmin ? true : false
         })
 
     } catch (error) {
