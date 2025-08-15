@@ -107,7 +107,7 @@ const dashboardUserAction = async (req, res) => {
             id,
             {
                 $set: {
-                    isActive: action
+                    isActive: action === "true"
                 }
             },
             {

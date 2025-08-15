@@ -23,7 +23,7 @@ const userSchema = new mongoose.Schema({
     image: { type: String },
     role: { type: String },
     resetToken: { type: String },
-    isActive: { stype: Boolean }
+    isActive: { type: Boolean }
 
 }, { timestamps: true });
 

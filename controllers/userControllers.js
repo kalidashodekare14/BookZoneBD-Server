@@ -59,6 +59,13 @@ const loginUser = async (req, res) => {
             })
         }
 
+        if (user.isActive === false) {
+            return res.status(400).send({
+                success: false,
+                message: "Account has been disabled."
+            })
+        }
+
         const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, {
             expiresIn: '7d'
         });
@@ -89,6 +96,14 @@ const googleAuthUser = async (req, res) => {
         const dummyPassword = crypto.randomBytes(16).toString("hex");
 
         const existingUser = await User.findOne({ email });
+
+        if (existingUser.isActive === false) {
+            return res.status(403).send({
+                success: false,
+                message: "Account has been disabled."
+            })
+        }
+
         if (existingUser) {
             const exitsToken = jwt.sign({ id: existingUser._id }, process.env.JWT_SECRET, {
                 expiresIn: '1d'
