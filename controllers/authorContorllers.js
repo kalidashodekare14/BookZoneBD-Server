@@ -1,9 +1,9 @@
-const authorCollection = require('../models/authorModel');
+const publisherCollection = require('../models/publisherModel');
 const Users = require('../models/userModel');
 
-const authorDataInsert = async (req, res) => {
+const publisherDataInsert = async (req, res) => {
     try {
-        const authorInfo = req.body;
+        const publisherInfo = req.body;
         const id = req.user.id
 
         const userVerify = await Users.findById(id);
@@ -15,7 +15,7 @@ const authorDataInsert = async (req, res) => {
         }
 
 
-        const authorData = await authorCollection.create(authorInfo);
+        const publisherData = await publisherCollection.create(publisherInfo);
         res.status(200).send({
             success: true,
             message: "Your author data insert successfully",
@@ -30,7 +30,7 @@ const authorDataInsert = async (req, res) => {
     }
 }
 
-const totalAuthors = async (req, res) => {
+const totalPublishers = async (req, res) => {
     try {
         const { search, page, limit } = req.query;
         const id = req.user.id
@@ -44,21 +44,21 @@ const totalAuthors = async (req, res) => {
         }
 
 
-        const total = await authorCollection.countDocuments();
+        const total = await publisherCollection.countDocuments();
         const pageNum = Number(page);
         const limitNum = Number(limit);
         const skip = (pageNum - 1) * limitNum;
 
 
-        const authorData = await authorCollection.find({}).skip(skip).limit(limitNum);
-        const authorInfo = {
+        const publisherData = await publisherCollection.find({}).skip(skip).limit(limitNum);
+        const publisherInfo = {
             totalPages: Math.ceil(total / limitNum),
-            books: authorData
+            books: publisherData
         }
         res.status(200).send({
             success: true,
             message: "Authors data successfully",
-            data: authorInfo
+            data: publisherInfo
         })
 
     } catch (error) {
@@ -81,7 +81,7 @@ const totalAuthorsGet = async (req, res) => {
             })
         }
 
-        const totalAuthor = await authorCollection.find({});
+        const totalAuthor = await publisherCollection.find({});
         res.status(200).send({
             success: true,
             message: "Authors data successfully",
@@ -97,4 +97,4 @@ const totalAuthorsGet = async (req, res) => {
     }
 }
 
-module.exports = { authorDataInsert, totalAuthors, totalAuthorsGet }
+module.exports = { publisherDataInsert, totalPublishers, totalAuthorsGet }

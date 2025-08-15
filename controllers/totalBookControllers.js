@@ -1,5 +1,5 @@
 const totalBooks = require('../models/totalBooksModel');
-const authorModel = require('../models/authorModel');
+const publisherModel = require('../models/publisherModel');
 const Users = require('../models/userModel');
 
 const bookAddApi = async (req, res) => {
@@ -15,7 +15,7 @@ const bookAddApi = async (req, res) => {
             })
         }
 
-        const checkAuthor = await authorModel.findById(author_id)
+        const checkAuthor = await publisherModel.findById(author_id)
 
         const newbooks = await totalBooks.create({
             title,

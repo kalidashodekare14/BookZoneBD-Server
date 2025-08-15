@@ -1,5 +1,4 @@
 const totalBooks = require("../models/totalBooksModel");
-const totalAuthorsModel = require('../models/authorModel');
 const userModel = require('../models/userModel');
 
 const publicTotalBooks = async (req, res) => {
@@ -39,7 +38,7 @@ const publicTotalBooks = async (req, res) => {
 
 
         const filteringData = await totalBooks.find({});
-        const allBooks = await totalBooks.find(query).skip(skip).limit(limitNum);
+        const allBooks = await totalBooks.find(query).sort({ createdAt: -1 }).skip(skip).limit(limitNum);
 
         const booksData = {
             totalItems: total,
