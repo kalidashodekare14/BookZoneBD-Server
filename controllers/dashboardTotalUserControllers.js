@@ -88,7 +88,48 @@ const dashboardUserRole = async (req, res) => {
     }
 }
 
+const dashboardUserAction = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const { action } = req.body;
+        console.log('checking id action', id, action);
+        const verifyId = req.user.id;
 
-module.exports = { dashboardTotalUsers, dashboardUserRole }
+        const userVerify = await Users.findById(verifyId);
+        if (userVerify.role.toLowerCase() !== "admin") {
+            res.status(400).send({
+                success: false,
+                message: "Forbidden access - admin mismatch",
+            })
+        }
+
+        const actionData = await Users.findByIdAndUpdate(
+            id,
+            {
+                $set: {
+                    isActive: action
+                }
+            },
+            {
+                new: true
+            }
+        )
+        res.status(200).send({
+            success: true,
+            message: "User action successfully",
+            data: actionData
+        })
+
+    } catch (error) {
+        res.status(500).send({
+            success: false,
+            message: "User action failed",
+            error: error.message
+        })
+    }
+}
+
+
+module.exports = { dashboardTotalUsers, dashboardUserRole, dashboardUserAction }
 
 

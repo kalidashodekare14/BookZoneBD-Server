@@ -22,7 +22,8 @@ const userSchema = new mongoose.Schema({
     address: { type: String },
     image: { type: String },
     role: { type: String },
-    resetToken: { type: String }
+    resetToken: { type: String },
+    isActive: { stype: Boolean }
 
 }, { timestamps: true });
 
