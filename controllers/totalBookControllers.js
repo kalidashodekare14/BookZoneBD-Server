@@ -94,5 +94,76 @@ const totalBookapi = async (req, res) => {
 
 }
 
+const bookDataUpdate = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const bookInfo = req.body;
+        const userId = req.user.id
 
-module.exports = { bookAddApi, totalBookapi }
+        const userVerify = await Users.findById(userId);
+        if (userVerify.role.toLowerCase() !== "admin") {
+            res.status(400).send({
+                success: false,
+                message: "Forbidden access - admin  mismatch",
+            })
+        }
+
+        const updateBook = await totalBooks.findByIdAndUpdate(
+            id,
+            {
+                $set: {
+                    ...bookInfo
+                }
+            },
+            {
+                new: true
+            }
+        )
+
+        res.status(200).send({
+            success: true,
+            message: "book data update successfully",
+            data: updateBook
+        })
+
+    } catch (error) {
+        res.status(500).send({
+            success: false,
+            message: "book data update failed",
+            error: error.message
+        })
+    }
+}
+
+const bookDataDelete = async (req, res) => {
+    try {
+        const id = req.params.id
+        const userId = req.user.id
+
+        const userVerify = await Users.findById(userId);
+        if (userVerify.role.toLowerCase() !== "admin") {
+            res.status(400).send({
+                success: false,
+                message: "Forbidden access - admin  mismatch",
+            })
+        }
+
+        const deleteBook = await totalBooks.findByIdAndDelete(id);
+        res.status(200).send({
+            success: true,
+            message: "Book data delete successfully",
+            data: { _id: deleteBook._id }
+        })
+
+
+    } catch (error) {
+        res.status(500).send({
+            success: false,
+            message: "Book data delete failed",
+            error: error.message
+        })
+    }
+}
+
+
+module.exports = { bookAddApi, totalBookapi, bookDataUpdate, bookDataDelete }

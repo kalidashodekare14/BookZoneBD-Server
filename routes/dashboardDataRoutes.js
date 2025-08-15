@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { bookAddApi, totalBookapi } = require('../controllers/totalBookControllers')
+const { bookAddApi, totalBookapi, bookDataUpdate, bookDataDelete } = require('../controllers/totalBookControllers')
 const { dashboardTotalUsers, dashboardUserRole } = require('../controllers/dashboardTotalUserControllers');
 const { dashboardTotalInfo } = require('../controllers/dashboardTotalInfoController');
 const { publisherDataInsert, totalPublishers, publisherUpdate, publisherDelete, totalAuthorsGet } = require('../controllers/authorContorllers');
@@ -11,6 +11,8 @@ const { totalReviews } = require('../controllers/totalReviewControllers')
 
 router.get('/total_info', dashboardTotalInfo);
 router.get('/total_books', totalBookapi);
+router.patch('/book_update/:id', bookDataUpdate);
+router.delete('/book_delete/:id', bookDataDelete);
 router.get('/total_user', dashboardTotalUsers);
 router.patch('/user_role/:id', dashboardUserRole);
 router.post('/total_book_add', bookAddApi);
