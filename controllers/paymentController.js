@@ -1,5 +1,5 @@
 const { default: axios } = require('axios');
-const paymentModel = require('../models/paymentModel');
+const orderModel = require('../models/orderModel');
 const crypto = require('crypto');
 
 const paymentIntegration = async (req, res) => {
@@ -66,7 +66,7 @@ const paymentIntegration = async (req, res) => {
             payment_status: "Pending",
             order_status: "Pending"
         }
-        const save = await paymentModel.create(saveData);
+        const save = await orderModel.create(saveData);
         if (save) {
             res.status(200).send({
                 success: true,
@@ -91,7 +91,7 @@ const paymentSucces = async (req, res) => {
         if (successData.status !== "VALID") {
             throw new Error("Unauthorized payment, Invalid Payment")
         }
-        const findData = await paymentModel.updateOne(
+        const findData = await orderModel.updateOne(
             { tran_id: successData?.tran_id },
             {
                 $set: {
@@ -136,7 +136,7 @@ const cashOnPayment = async (req, res) => {
             payment_status: "Pending",
             order_status: "Pending"
         }
-        await paymentModel.create(saveData);
+        await orderModel.create(saveData);
         res.status(200).send({
             success: true,
             message: "Payment successfully",

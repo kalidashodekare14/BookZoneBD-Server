@@ -1,5 +1,5 @@
 const puppeteer = require('puppeteer');
-const paymentModel = require('../models/paymentModel');
+const orderModel = require('../models/orderModel');
 const Users = require('../models/userModel');
 
 const orderReceiptApi = async (req, res) => {
@@ -15,7 +15,7 @@ const orderReceiptApi = async (req, res) => {
       })
     }
 
-    const orderInfo = await paymentModel.findById(orderId);
+    const orderInfo = await orderModel.findById(orderId);
     const htmlContent = `
     <html>
       <head>

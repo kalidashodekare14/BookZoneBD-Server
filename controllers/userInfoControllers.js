@@ -1,5 +1,5 @@
 const User = require('../models/userModel');
-const userOrderModel = require('../models/paymentModel');
+const userOrderModel = require('../models/orderModel');
 
 const userInfoApi = async (req, res) => {
     try {

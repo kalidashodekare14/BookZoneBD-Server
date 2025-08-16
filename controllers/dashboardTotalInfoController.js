@@ -1,6 +1,6 @@
 const User = require('../models/userModel');
 const Book = require('../models/totalBooksModel');
-
+// const OrderModel = require('../models/')
 
 const dashboardTotalInfo = async (req, res) => {
     try {
@@ -15,6 +15,7 @@ const dashboardTotalInfo = async (req, res) => {
 
         const totalUser = await User.countDocuments();
         const totalBook = await Book.countDocuments();
+
 
         const totalInfo = {
             totalUsers: {
