@@ -1,6 +1,6 @@
 const User = require('../models/userModel');
 const Book = require('../models/totalBooksModel');
-// const OrderModel = require('../models/')
+const orderModel = require('../models/orderModel');
 
 const dashboardTotalInfo = async (req, res) => {
     try {
@@ -15,7 +15,15 @@ const dashboardTotalInfo = async (req, res) => {
 
         const totalUser = await User.countDocuments();
         const totalBook = await Book.countDocuments();
-
+        const totalOrder = await orderModel.countDocuments();
+        const totalEarn = await orderModel.aggregate([
+            {
+                $group: {
+                    _id: null,
+                    totalAmount: { $sum: "$amount" }
+                }
+            }
+        ])
 
         const totalInfo = {
             totalUsers: {
@@ -24,6 +32,12 @@ const dashboardTotalInfo = async (req, res) => {
             totalBooks: {
                 value: totalBook
             },
+            totalOrders: {
+                value: totalOrder
+            },
+            totalAmount: {
+                value: totalEarn.length > 0 ? totalEarn[0].totalAmount : 0
+            }
         }
         res.status(200).send({
             success: true,
