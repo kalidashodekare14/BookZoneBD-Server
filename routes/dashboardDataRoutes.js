@@ -3,7 +3,7 @@ const router = express.Router();
 const { bookAddApi, totalBookapi, bookDataUpdate, bookDataDelete } = require('../controllers/totalBookControllers')
 const { dashboardTotalUsers, dashboardUserRole, dashboardUserAction } = require('../controllers/dashboardTotalUserControllers');
 const { dashboardTotalInfo } = require('../controllers/dashboardTotalInfoController');
-const { publisherDataInsert, totalPublishers, publisherUpdate, publisherDelete, totalAuthorsGet } = require('../controllers/authorContorllers');
+const { publisherDataInsert, totalPublishers, publisherUpdate, publisherDelete, totalAuthorsPublishersGet } = require('../controllers/authorContorllers');
 const { orderManage, orderStatus, orderDetails } = require('../controllers/orderManageControllers')
 const { orderReceiptApi } = require('../controllers/orderReceiptController');
 const { totalReviews } = require('../controllers/totalReviewControllers')
@@ -22,7 +22,7 @@ router.get('/total_publisher', totalPublishers);
 router.patch('/publisher_info_update/:id', publisherUpdate);
 router.delete('/publisher_delete/:id', publisherDelete);
 // Add Book Author dropdown api set 👇 (/authors_get)
-router.get('/authors_get', totalAuthorsGet);
+router.get('/authorAndPublisherGet', totalAuthorsPublishersGet);
 router.get('/order_manage', orderManage);
 router.patch('/order_status/:id', orderStatus);
 router.get('/order_details/:id', orderDetails);

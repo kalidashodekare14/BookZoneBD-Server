@@ -1,5 +1,6 @@
 const totalBooks = require("../models/totalBooksModel");
 const userModel = require('../models/userModel');
+const publisherModel = require('../models/publisherModel')
 
 const publicTotalBooks = async (req, res) => {
     try {
@@ -180,6 +181,23 @@ const writerDetails = async (req, res) => {
     }
 }
 
+const publisherData = async (req, res) => {
+    try {
+        const publisherInfo = await publisherModel.find({});
+        res.status(200).send({
+            success: true,
+            message: "Total publisher data successfully",
+            data: publisherInfo
+        })
 
 
-module.exports = { publicTotalBooks, viewDetailsBook, specialDiscountBook, trendingBooks, academicBooks, totalWriters, writerDetails }
+    } catch (error) {
+        res.status(500).send({
+            success: false,
+            message: "Total publisehr data failed",
+            error: error.message
+        })
+    }
+}
+
+module.exports = { publicTotalBooks, viewDetailsBook, specialDiscountBook, trendingBooks, academicBooks, totalWriters, writerDetails, publisherData }

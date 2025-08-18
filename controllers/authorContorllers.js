@@ -139,7 +139,7 @@ const publisherDelete = async (req, res) => {
 }
 
 // Add Book Author dropdown api set
-const totalAuthorsGet = async (req, res) => {
+const totalAuthorsPublishersGet = async (req, res) => {
     try {
         const id = req.user.id
         const userVerify = await Users.findById(id);
@@ -150,11 +150,17 @@ const totalAuthorsGet = async (req, res) => {
             })
         }
 
-        const totalAuthor = await publisherCollection.find({});
+
+        const totalPublisher = await publisherCollection.find({});
+        const totalAuthor = await Users.find({ role: "Writer" });
+        const dropdownInfo = {
+            totalPublisher: totalPublisher,
+            totalAuthor: totalAuthor
+        }
         res.status(200).send({
             success: true,
             message: "Authors data successfully",
-            data: totalAuthor
+            data: dropdownInfo
         })
 
     } catch (error) {
@@ -166,4 +172,4 @@ const totalAuthorsGet = async (req, res) => {
     }
 }
 
-module.exports = { publisherDataInsert, totalPublishers, publisherUpdate, publisherDelete, totalAuthorsGet }
+module.exports = { publisherDataInsert, totalPublishers, publisherUpdate, publisherDelete, totalAuthorsPublishersGet }

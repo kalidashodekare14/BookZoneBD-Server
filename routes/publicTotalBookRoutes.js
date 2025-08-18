@@ -1,5 +1,5 @@
 const express = require('express');
-const { publicTotalBooks, viewDetailsBook, specialDiscountBook, trendingBooks, academicBooks, totalWriters, writerDetails } = require('../controllers/publicTotalBookControllers');
+const { publicTotalBooks, viewDetailsBook, specialDiscountBook, trendingBooks, academicBooks, totalWriters, writerDetails, publisherData } = require('../controllers/publicTotalBookControllers');
 const { prodcutReview, productTotalReview } = require('../controllers/productReviewControllers')
 const router = express.Router();
 
@@ -13,7 +13,7 @@ router.get('/trending_books', trendingBooks);
 router.get('/academic_books', academicBooks);
 router.get('/total_authors', totalWriters);
 router.get('/view_writer/:id', writerDetails)
-
+router.get('/total_publisher', publisherData);
 
 module.exports = router
 
