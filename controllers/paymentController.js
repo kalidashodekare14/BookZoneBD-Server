@@ -20,9 +20,9 @@ const paymentIntegration = async (req, res) => {
             total_amount: paymentInfo.amount || 0,
             currency: paymentInfo.currency || "BDT",
             tran_id: tnxId,
-            success_url: "http://localhost:5000/api/order/payment_success",
-            fail_url: "http://localhost:5000/api/order/payment_fail",
-            cancel_url: "http://localhost:5000/api/order/payment_cancel",
+            success_url: "https://book-zone-bd-server.vercel.app/api/order/payment_success",
+            fail_url: "https://book-zone-bd-server.vercel.app/api/order/payment_fail",
+            cancel_url: "https://book-zone-bd-server.vercel.app/order/payment_cancel",
             cus_name: paymentInfo.customar_name || "None",
             cus_email: paymentInfo.customar_email || "None",
             cus_add1: addressData.address || "None",
@@ -100,7 +100,7 @@ const paymentSucces = async (req, res) => {
             }
         )
         console.log('checking pament status', findData)
-        res.redirect(`http://localhost:5173/payment_success`)
+        res.redirect(`https://bookzonebd.vercel.app/payment_success`)
 
     } catch (error) {
         res.status(500).send({
@@ -111,10 +111,10 @@ const paymentSucces = async (req, res) => {
     }
 }
 const paymentFail = async (req, res) => {
-    res.redirect('http://localhost:5173/payment_fail')
+    res.redirect('https://bookzonebd.vercel.app/payment_fail')
 }
 const paymentCancel = async (req, res) => {
-    res.redirect('http://localhost:5173/payment_cancel')
+    res.redirect('https://bookzonebd.vercel.app/payment_cancel')
 }
 
 const cashOnPayment = async (req, res) => {

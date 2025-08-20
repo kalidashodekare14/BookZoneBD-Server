@@ -15,5 +15,5 @@ router.get('/total_authors', totalWriters);
 router.get('/view_writer/:id', writerDetails)
 router.get('/total_publisher', publisherData);
 
-module.exports = router
+module.exports = router;
 
