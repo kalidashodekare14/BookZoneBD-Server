@@ -28,7 +28,7 @@ const dashboardTotalUsers = async (req, res) => {
         console.log('check limitNum', limitNum)
         console.log('check skip', skip)
 
-        const totalUsers = await Users.find(query).skip(skip).limit(limitNum).lean();
+        const totalUsers = await Users.find(query).sort({ createdAt: -1 }).skip(skip).limit(limitNum).lean();
 
         const safeData = totalUsers.map(user => {
             const { password, ...rest } = user;

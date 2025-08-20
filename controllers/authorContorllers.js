@@ -50,7 +50,7 @@ const totalPublishers = async (req, res) => {
         const skip = (pageNum - 1) * limitNum;
 
 
-        const publisherData = await publisherCollection.find({}).skip(skip).limit(limitNum);
+        const publisherData = await publisherCollection.find({}).sort({ createdAt: -1 }).skip(skip).limit(limitNum);
         const publisherInfo = {
             totalPages: Math.ceil(total / limitNum),
             books: publisherData

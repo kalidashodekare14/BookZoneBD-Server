@@ -73,7 +73,7 @@ const totalBookapi = async (req, res) => {
         const skip = (pageNum - 1) * limitNum;
 
 
-        const totalBook = await totalBooks.find({}).skip(skip).limit(limitNum);
+        const totalBook = await totalBooks.find({}).sort({ createdAt: -1 }).skip(skip).limit(limitNum);
         const booksData = {
             totalPages: Math.ceil(total / limitNum),
             books: totalBook
