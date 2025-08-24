@@ -70,7 +70,6 @@ const writerInfoUpdate = async (req, res) => {
 const writerBookCreate = async (req, res) => {
     try {
         const { author_id, title, image, category, subCategory, price, discount, publisher, stock, description } = req.body;
-        console.log('checking book data', author_id, title, image, category, subCategory, price, discount, publisher, stock, description)
 
         const checkAuthor = await userModel.findById(author_id)
 
@@ -114,7 +113,6 @@ const writerBookCreate = async (req, res) => {
 const writerTotalBook = async (req, res) => {
     try {
         const id = req.params.id
-        console.log('checking writer id', id)
         const totalBooks = await bookModel.find({ author_id: id }).sort({ createdAt: -1 })
 
         res.status(200).send({
@@ -162,4 +160,25 @@ const writerBookUpdate = async (req, res) => {
     }
 }
 
-module.exports = { writerInfo, writerInfoUpdate, writerBookCreate, writerTotalBook, writerBookUpdate }
+const writerBookDetele = async (req, res) => {
+    try {
+        const id = req.params.id;
+
+
+        const deleteBook = await bookModel.findByIdAndDelete(id);
+        res.status(200).send({
+            success: true,
+            message: "Writer book delete successfully",
+            data: { _id: deleteBook._id }
+        })
+
+    } catch (error) {
+        res.status(500).send({
+            success: false,
+            message: "Writer book delete failed",
+            error: error.message
+        })
+    }
+}
+
+module.exports = { writerInfo, writerInfoUpdate, writerBookCreate, writerTotalBook, writerBookUpdate, writerBookDetele }

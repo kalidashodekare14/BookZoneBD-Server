@@ -7,6 +7,7 @@ const publicTotalBooks = async (req, res) => {
         const { search, minPrice, maxPrice, minDiscount, maxDiscount, rating, authors, publishers, page, limit } = req.query;
         const query = {};
 
+
         if (search) {
             query.title = { $regex: search, $options: 'i' }
         }
@@ -24,8 +25,9 @@ const publicTotalBooks = async (req, res) => {
         }
 
         if (authors) {
-            query.author = { $in: authors.split(',') };
+            query["author.author_name"] = { $in: authors.split(',') };
         }
+
 
         if (publishers) {
             query.publisher = { $in: publishers.split(',') };
